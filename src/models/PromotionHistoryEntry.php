@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class PromotionHistoryEntry
+class PromotionHistoryEntry extends BaseModel
 {
     private $id;
     private $year;

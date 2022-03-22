@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class Right
+class Right extends BaseModel
 {
     private $id;
     private $role;
