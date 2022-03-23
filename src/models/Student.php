@@ -8,7 +8,7 @@ class Student
     private $login;
     private $alias;
     private $pwd;
-    private $pastry;
+    private $pastryId;
     private $role;
 
     public function __construct($login, $alias, $pwd, $defaultPastry, $id=null)
@@ -16,7 +16,7 @@ class Student
         $this->login = $login;
         $this->alias = $alias;
         $this->pwd = $pwd;
-        $this->pastry = $defaultPastry;
+        $this->pastryId = $defaultPastry;
         $this->id = $id;
     }
 
@@ -28,7 +28,7 @@ class Student
             case 'login' : return $this->login;
             case 'alias' : return $this->alias;
             case 'pwd' : return $this->pwd;
-            case 'pastry' : return $this->pastry;
+            case 'pastry' : return $this->pastryId;
         }
     }
 
@@ -41,14 +41,15 @@ class Student
         $students = [];
         foreach ($dataArray as &$i) {
             /*TODO fetch role for this student*/
-            $students[] = new Student($i->login, $i->alias, $i->pdw, $i->defaultPastry, $i->id);
+            $students[] = new Student($i->login, $i->alias, $i->pwd, $i->defaultPastry, $i->id);
         }
         return $students;
     }
 
     public function registerToDatabase()
     {
-        $sth = Database::getInstance()->prepare("INSERT INTO Student(login, alias, pwd) VALUES (".$this->login.",".$this->alias.",".$this->pwd.")");
+        $requete = "INSERT INTO Student(login, alias, pwd, defaultPastry) VALUES (\"$this->login\",\"$this->alias\",\"$this->pwd\",$this->pastryId)";
+        $sth = Database::getInstance()->prepare($requete);
         $students = self::getAll();
         foreach ($students as &$student) {
             if ($student->login == $this->login && $student->pwd == $this->pwd) {

@@ -5,11 +5,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Models\PastryType;
 use Src\Models\Student;
+use function PHPUnit\Framework\isEmpty;
 
 final class IndexController extends BaseController
 {
-    private static $modelPastries = null;
-
 
     public function getIndex(Request $request, Response $response, $args)
     {
@@ -28,12 +27,10 @@ final class IndexController extends BaseController
 
     private function register(Response $response)
     {
-        $student = new Student($_POST['login'], $_POST['alias'], $_POST['pwd'], $_POST['pastry']);
-        $pastries = PastryType::getAll();
+        $student = new Student($_POST['login'], $_POST['alias'], $_POST['password'], $_POST['pastry']);
         $ret = $student->registerToDatabase();
-        if (!$ret) {
-            $this->view->render($response, 'index.phtml', ["pastries" => $pastries, "registerError" => $ret]);
-        }
+        $pastries = PastryType::getAll();
+        $this->view->render($response, 'index.phtml', ["pastries" => $pastries, "registerError" => $ret]);
         return $response;
     }
 
@@ -48,7 +45,8 @@ final class IndexController extends BaseController
                 return $response;
             }
         }
-        $this->view->render($response, 'login.phtml', ["name" => "Error"]);
+        $pastries = PastryType::getAll();
+        $this->view->render($response, 'index.phtml', ["pastries" => $pastries, 'loginError' => "logError"]);
         return $response;
     }
 }
