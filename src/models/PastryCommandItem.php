@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class PastryCommandItem extends BaseModel
+class PastryCommandItem
 {
     private $nbPastry;
     private $relatedCroissantage;

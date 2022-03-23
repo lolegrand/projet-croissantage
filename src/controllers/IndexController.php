@@ -8,15 +8,18 @@ use Src\Models\Student;
 
 final class IndexController extends BaseController
 {
-    public function index(Request $request, Response $response, $args)
+    private static $modelPastries = null;
+
+
+    public function getIndex(Request $request, Response $response, $args)
     {
-        $pastries = PastryType::getAll($this->container->get('pdo'));
+        $pastries = PastryType::getAll();
         $this->view->render($response, 'index.phtml', ["pastries" => $pastries]);
         return $response;
     }
 
-    public function form(Request $request, Response $response, $args) {
-        if ($_POST['submit'] == 'login') {
+    public function postIndex(Request $request, Response $response, $args) {
+        if ($_POST['submit'] == 'Login') {
             return $this->login($response);
         } else {
             return $this->register($response);
@@ -25,7 +28,12 @@ final class IndexController extends BaseController
 
     private function register(Response $response)
     {
-
+        $student = new Student($_POST['login'], $_POST['alias'], $_POST['pwd'], $_POST['pastry']);
+        $pastries = PastryType::getAll();
+        $ret = $student->registerToDatabase();
+        if (!$ret) {
+            $this->view->render($response, 'index.phtml', ["pastries" => $pastries, "registerError" => $ret]);
+        }
         return $response;
     }
 
@@ -33,15 +41,14 @@ final class IndexController extends BaseController
     {
         $login = $_POST['login'];
         $password = $_POST['password'];
-        $students = Student::getAll($this->container->get('pdo'));
+        $students = Student::getAll();
         foreach ($students as $student) {
-            if ( ($login == $student->login || $login == $student->alias) && $password == $student->pwd) {
+            if ( $login == $student->login && $password == $student->pwd) {
                 $this->view->render($response, 'login.phtml', ["name" => $login]);
                 return $response;
             }
         }
-
-        $this->view->render($response, 'login.phtml', ["name" => "Salope"]);
+        $this->view->render($response, 'login.phtml', ["name" => "Error"]);
         return $response;
     }
 }

@@ -2,14 +2,23 @@
 
 namespace Src\Models;
 
-class Student extends BaseModel
+class Student
 {
     private $id;
     private $login;
     private $alias;
     private $pwd;
-    private $defaultPastry;
+    private $pastry;
     private $role;
+
+    public function __construct($login, $alias, $pwd, $defaultPastry, $id=null)
+    {
+        $this->login = $login;
+        $this->alias = $alias;
+        $this->pwd = $pwd;
+        $this->pastry = $defaultPastry;
+        $this->id = $id;
+    }
 
     public function __get($name)
     {
@@ -19,36 +28,35 @@ class Student extends BaseModel
             case 'login' : return $this->login;
             case 'alias' : return $this->alias;
             case 'pwd' : return $this->pwd;
+            case 'pastry' : return $this->pastry;
         }
     }
 
-    public function __construct($db)
+    public static function getAll()
     {
-        parent::__construct($db);
-    }
-
-    public static function getAll($db)
-    {
+        $db = Database::getInstance();
         $sth = $db->prepare("SELECT * FROM Student");
         $sth->execute();
         $dataArray = $sth->fetchAll();
         $students = [];
         foreach ($dataArray as &$i) {
-            $item = new Student($db);
-            $item->id = $i->id;
-            $item->alias = $i->alias;
-            $item->login = $i->login;
-            $item->pwd = $i->pwd;
             /*TODO fetch role for this student*/
-            $students[] = $item;
+            $students[] = new Student($i->login, $i->alias, $i->pdw, $i->defaultPastry, $i->id);
         }
         return $students;
     }
 
-    public static function registerStudent($db, $student)
+    public function registerToDatabase()
     {
-        $sth = $db->prepare("INSERT INTO Student(login, alias, pwd) VALUES (".$student->login.",".$student->alias.",".$student->pwd.")");
+        $sth = Database::getInstance()->prepare("INSERT INTO Student(login, alias, pwd) VALUES (".$this->login.",".$this->alias.",".$this->pwd.")");
+        $students = self::getAll();
+        foreach ($students as &$student) {
+            if ($student->login == $this->login && $student->pwd == $this->pwd) {
+                return false;
+            }
+        }
         $sth->execute();
+        return true;
     }
 
 }

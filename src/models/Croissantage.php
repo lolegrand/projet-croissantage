@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class Croissantage extends BaseModel
+class Croissantage
 {
     private $id;
     private $croissanted_student;

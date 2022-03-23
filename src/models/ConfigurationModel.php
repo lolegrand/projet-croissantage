@@ -1,7 +1,7 @@
 <?php
 namespace Src\Models;
 
-final class ConfigurationModel extends BaseModel
+final class ConfigurationModel
 {
     public function getConfigById($cfgId = null)
     {

@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class Classe extends BaseModel
+class Classe
 {
     private $id;
     private $name;

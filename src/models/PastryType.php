@@ -2,7 +2,7 @@
 
 namespace Src\Models;
 
-class PastryType extends BaseModel
+class PastryType
 {
     private $id;
     private $name;
@@ -10,10 +10,15 @@ class PastryType extends BaseModel
 
     public function __get($name)
     {
-        return $this->name;
+        switch ($name) {
+            case 'id': return $this->id;
+            case 'name': return $this->name;
+            case 'isAvailable': return $this->isAvailable;
+        }
     }
 
-    public static function getAll($db) {
+    public static function getAll() {
+        $db = Database::getInstance();
         $sth = $db->prepare("SELECT * FROM PastryType");
         $sth->execute();
         $dataArray = $sth->fetchAll();

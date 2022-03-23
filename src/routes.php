@@ -7,9 +7,9 @@ use Slim\Http\Response;
 return function (App $app) {
     $container = $app->getContainer();
 
-    $app->post('/', 'Src\Controller\IndexController:form')
+    $app->post('/', 'Src\Controller\IndexController:postIndex')
         ->setName('login');
 
-    $app->get('/', 'Src\Controller\IndexController:index')
+    $app->get('/', 'Src\Controller\IndexController:getIndex')
     ->setName('index');
 };

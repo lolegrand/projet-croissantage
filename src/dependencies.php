@@ -22,13 +22,7 @@ return function (App $app) {
 
     // PDO
     $container['pdo'] = function ($container) {
-        $settings = $container->get('settings');
-        $dsn = 'mysql:host='.$settings['db']['host'].';dbname=' . $settings['db']['database'];
-        $pdo = new PDO($dsn, $settings['db']['login'], $settings['db']['mdp']);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Disable emulate prepared statements
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ); // Set default fetch mode
-        return $pdo;
+        return \Src\Models\Database::getInstance();
     };
     // -----------------------------------------------------------------------------
     // Model factories
