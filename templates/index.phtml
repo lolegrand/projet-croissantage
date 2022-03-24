@@ -84,7 +84,6 @@
             <td>
                 <label>
                     <select name="pastry">
-                        <option value="">--Please choose a favorite pastry--</option>
                         <?php if (isset($pastries)) : ?>
                             <?php foreach ($pastries as $pastry) {?>
                                 <option value="<?= $pastry->id ?>"><?= $pastry->name ?></option>

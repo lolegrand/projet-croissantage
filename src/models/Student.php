@@ -2,21 +2,25 @@
 
 namespace Src\Models;
 
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\DependencyInjection\Alias;
+
 class Student
 {
     private $id;
     private $login;
     private $alias;
     private $pwd;
-    private $pastryId;
-    private $role;
+    private $pastry;
+    private $roles = [];
+    private $promotions = [];
 
-    public function __construct($login, $alias, $pwd, $defaultPastry, $id=null)
+    public function __construct($login, $alias, $pwd, PastryType $defaultPastry, $id=null)
     {
         $this->login = $login;
         $this->alias = $alias;
         $this->pwd = $pwd;
-        $this->pastryId = $defaultPastry;
+        $this->pastry = $defaultPastry;
         $this->id = $id;
     }
 
@@ -28,7 +32,18 @@ class Student
             case 'login' : return $this->login;
             case 'alias' : return $this->alias;
             case 'pwd' : return $this->pwd;
-            case 'pastry' : return $this->pastryId;
+            case 'pastry' : return $this->pastry;
+            case 'roles' : return $this->roles;
+            case 'promotions' : return $this->promotions;
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name)
+        {
+            case 'roles' : $this->roles = $value;break;
+            case 'promotion' : $this->promotions = $value;break;
         }
     }
 
@@ -40,16 +55,18 @@ class Student
         $dataArray = $sth->fetchAll();
         $students = [];
         foreach ($dataArray as &$i) {
-            /*TODO fetch role for this student*/
-            $students[] = new Student($i->login, $i->alias, $i->pwd, $i->defaultPastry, $i->id);
+            $student = new Student($i->login, $i->alias, $i->pwd, PastryType::getById($i->defaultPastry), $i->id);
+            $student->roles = Right::getRightsByStudentId($student->id);
+            $student->promotions = Promo::getPromoByStudentId($student->id);
+            $students[] = $student;
         }
         return $students;
     }
 
     public function registerToDatabase()
     {
-        $requete = "INSERT INTO Student(login, alias, pwd, defaultPastry) VALUES (\"$this->login\",\"$this->alias\",\"$this->pwd\",$this->pastryId)";
-        $sth = Database::getInstance()->prepare($requete);
+        $request = "INSERT INTO Student(login, alias, pwd, defaultPastry) VALUES (\"$this->login\",\"$this->alias\",\"$this->pwd\",$this->pastry->id)";
+        $sth = Database::getInstance()->prepare($request);
         $students = self::getAll();
         foreach ($students as &$student) {
             if ($student->login == $this->login && $student->pwd == $this->pwd) {
@@ -58,6 +75,23 @@ class Student
         }
         $sth->execute();
         return true;
+    }
+
+    public function setAlias($newAlias)
+    {
+        $this->alias = $newAlias;
+        $request = "UPDATE Student SET alias=\"$this->alias\" WHERE id=$this->id";
+        $sth = Database::getInstance()->prepare($request);
+        $sth->execute();
+    }
+
+    public function setPastry(PastryType $pastryType)
+    {
+        $this->pastry = $pastryType;
+        $pastryId = $this->pastry->id;
+        $request = "UPDATE Student SET defaultPastry=$pastryId WHERE id=$this->id";
+        $sth = Database::getInstance()->prepare($request);
+        $sth->execute();
     }
 
 }

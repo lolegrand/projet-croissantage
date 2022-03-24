@@ -4,6 +4,8 @@ namespace Src\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Models\PastryType;
+use Src\Models\Promo;
+use Src\Models\Right;
 use Src\Models\Student;
 use function PHPUnit\Framework\isEmpty;
 
@@ -18,11 +20,15 @@ final class IndexController extends BaseController
     }
 
     public function postIndex(Request $request, Response $response, $args) {
-        if ($_POST['submit'] == 'Login') {
+        if ($_POST['submit'] == 'Login')
+        {
             return $this->login($response);
-        } else {
+        }
+        if ($_POST['submit'] == 'Register')
+        {
             return $this->register($response);
         }
+        return $response;
     }
 
     private function register(Response $response)
@@ -40,9 +46,11 @@ final class IndexController extends BaseController
         $password = $_POST['password'];
         $students = Student::getAll();
         foreach ($students as $student) {
-            if ( $login == $student->login && $password == $student->pwd) {
-                $this->view->render($response, 'login.phtml', ["name" => $login]);
-                return $response;
+            if ($login == $student->login && $password == $student->pwd) {
+                session_start();
+                $_SESSION["student"]=$student;
+                header('Location: http://'.$_SERVER['HTTP_HOST'].'/student');
+                exit;
             }
         }
         $pastries = PastryType::getAll();

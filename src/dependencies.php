@@ -42,6 +42,12 @@ return function (App $app) {
         return new Src\Controller\IndexController($view, $logger, $container);
     };
 
+    $container['Src\Controller\StudentController'] = function ($container) {
+        $view = $container->get('renderer');
+        $logger = $container->get('logger');
+        return new Src\Controller\StudentController($view, $logger, $container);
+    };
+
     $container['Src\Controller\SystemController'] = function ($container) {
         $logger = $container->get('logger');
         $cfgModel = $container->get('cfgModel');

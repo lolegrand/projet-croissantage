@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Slim 3</title>
+
+    <style>
+        .promo {
+            border: 1px solid;
+        }
+    </style>
+
+</head>
+<header>
+    <table style="margin-left:auto;margin-right:auto;">
+        <tr>
+            <td style="padding:0 15px 0 15px;">Admin</td>
+            <td style="padding:0 15px 0 15px;">Statistics</td>
+            <td style="padding:0 15px 0 15px;">Croissantage</td>
+        </tr>
+    </table>
+</header>
+<body>
+<h1>You</h1>
+<?php if (isset($student)) :?>
+    <table style="border-spacing: 20px">
+        <tr>
+            <td>
+                <b>Name:</b>
+            </td>
+            <td>
+                <?= $student->login ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Alias:</b>
+            </td>
+            <td>
+                <?php if (isset($editAlias)) : ?>
+                    <?php if ($editAlias == 'valueAliasMode') : ?>
+                        <form method="post">
+                            <?= $student->alias ?>
+                            <input type="submit" name="editAlias" value="edit"/>
+                        </form>
+                    <?php endif; ?>
+
+                    <?php if ($editAlias == 'editAliasMode') : ?>
+                        <form method="post">
+                            <input type="text" name="aliasInput" placeholder="<?= $student->alias ?>"/>
+                            <input type="submit" name="editAlias" value="validate"/>
+                            <input type="submit" name="editAlias" value="cancel"/>
+                        </form>
+                    <?php endif; ?>
+
+                    <?php if ($editAlias == 'valueAliasModeWithError') : ?>
+                        <form method="post">
+                            <?= $student->alias ?>
+                            <input type="submit" name="editAlias" value="edit"/>
+                            <b style="background-color: indianred"> Error while editing the alias </b>
+                        </form>
+                    <?php endif; ?>
+
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Favorite pastry:</b>
+            </td>
+            <td>
+                <?php if (isset($editPastry)) : ?>
+                    <?php if ($editPastry == 'valuePastryMode') : ?>
+                        <form method="post">
+                            <?= $student->pastry->name ?>
+                            <input type="submit" name="editPastry" value="edit"/>
+                        </form>
+                    <?php endif; ?>
+
+                    <?php if ($editPastry == 'editPastryMode') : ?>
+                        <form method="post">
+                            <select name="pastryInput">
+                                <?php if (isset($pastries)) : ?>
+                                    <?php foreach ($pastries as $pastry) {?>
+                                        <option value="<?= $pastry->id ?>"
+                                            <?php if ($student->pastry->id == $pastry->id) : ?>
+                                                selected="selected"
+                                            <?php endif; ?>
+                                        ><?= $pastry->name ?></option>
+                                    <?php } ?>
+                                <?php endif; ?>
+                            </select>
+                            <input type="submit" name="editPastry" value="validate"/>
+                            <input type="submit" name="editPastry" value="cancel"/>
+                        </form>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Roles:</b>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <?php foreach ($student->roles as &$role) { ?>
+                            <td>
+                                <p style="border:1px solid #000;padding: 2px;margin: 2px"><?= $role->role ?></p>
+                            </td>
+                        <?php } ?>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Student promotion :</b>
+            </td>
+
+            <td>
+                <?php if (count($student->promotions) != 0) : ?>
+                    <table class="promo">
+                        <thead>
+                        <tr>
+                            <td class="promo">
+                                <b style="padding: 50px">Years</b>
+                            </td>
+                            <td class="promo">
+                                <b style="padding: 50px">Class</b>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($student->promotions as &$promotion) { ?>
+                            <tr>
+                                <td class="promo">
+                                    <p style="padding: 0 50px 0 50px"><?= $promotion->year ?></p>
+                                </td>
+                                <td class="promo">
+                                    <p style="padding: 0 50px 0 50px"><?= $promotion->classe->name ?></p>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </td>
+        </tr>
+
+    </table>
+
+<?php endif ?>
+<h1>Others</h1>
+
+</body>
+</html>
