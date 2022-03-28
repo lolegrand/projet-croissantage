@@ -29,6 +29,13 @@ final class StudentController extends BaseController
 
     public function postStudent(Request $request, Response $response, $args)
     {
+        if ( isset($_POST['disconnect']) )
+        {
+            unset($_SESSION['student']);
+            header('Location: http://'.$_SERVER['HTTP_HOST']);
+            exit;
+        }
+
         $outputArray = [];
         $outputArray['editAlias'] = 'valueAliasMode';
         $outputArray['editPastry'] = 'valuePastryMode';
@@ -47,7 +54,6 @@ final class StudentController extends BaseController
         }
 
         $outputArray['student'] = $_SESSION["student"];
-        print_r($outputArray);
         $this->view->render($response, 'student.phtml',$outputArray);
         return $response;
     }

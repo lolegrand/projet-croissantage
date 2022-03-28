@@ -22,6 +22,11 @@
 </header>
 <body>
 <h1>You</h1>
+
+<form method="post">
+    <input type="submit" name="disconnect" value="disconnect"/>
+</form>
+
 <?php if (isset($student)) :?>
     <table style="border-spacing: 20px">
         <tr>
@@ -148,9 +153,7 @@
                 <?php endif; ?>
             </td>
         </tr>
-
     </table>
-
 <?php endif ?>
 <h1>Others</h1>
 

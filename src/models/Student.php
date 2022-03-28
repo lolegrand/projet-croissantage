@@ -2,8 +2,6 @@
 
 namespace Src\Models;
 
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Component\DependencyInjection\Alias;
 
 class Student
 {
