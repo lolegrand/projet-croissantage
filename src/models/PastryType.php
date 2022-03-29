@@ -2,6 +2,8 @@
 
 namespace Src\Models;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PastryType
 {
     private $id;
@@ -39,6 +41,9 @@ class PastryType
 
     public static function getById($id)
     {
+        if ($id == null) {
+            $id = 1; // I suppose the croissant as the default pastry.
+        }
         $db = Database::getInstance();
         $sth = $db->prepare("SELECT * FROM PastryType WHERE id=$id");
         $sth->execute();
