@@ -51,4 +51,10 @@ class PastryType
         return new PastryType($data[0]->name, $data[0]->isAvailable, $data[0]->id);
     }
 
+    public function registerPastry() {
+        $db = Database::getInstance();
+        $sth = $db->prepare("INSERT INTO `PastryType`(`name`, `isAvailable`) VALUES (\"$this->name\",$this->isAvailable)");
+        $sth->execute();
+    }
+
 }

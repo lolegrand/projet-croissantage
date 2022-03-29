@@ -28,6 +28,11 @@ final class StudentController extends BaseController
 
     public function postStudent(Request $request, Response $response, $args)
     {
+        if ( isset($_SESSION["student"]) )
+        {
+            header('Location: http://'.$_SERVER['HTTP_HOST']);
+            exit;
+        }
         if ( isset($_POST['disconnect']) )
         {
             unset($_SESSION['student']);

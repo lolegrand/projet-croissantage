@@ -20,4 +20,7 @@ return function (App $app) {
     $app->get('/admin', 'Src\Controller\AdminController:getAdmin')
         ->setName('admin');
 
+    $app->post('/admin', 'Src\Controller\AdminController:postAdmin')
+        ->setName('admin');
+
 };

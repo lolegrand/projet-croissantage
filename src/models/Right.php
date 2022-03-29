@@ -35,4 +35,18 @@ class Right
         return $rights;
     }
 
+    public static function removeRights($id)
+    {
+        $db = Database::getInstance();
+        $sth = $db->prepare("DELETE FROM `Rights` WHERE id=$id");
+        $sth->execute();
+    }
+
+    public function addRight($studentId)
+    {
+        $db = Database::getInstance();
+        $sth = $db->prepare("INSERT INTO `Rights`(`idS`, `role`) VALUES ($studentId,\"$this->role\")");
+        $sth->execute();
+    }
+
 }

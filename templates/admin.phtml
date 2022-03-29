@@ -10,29 +10,26 @@
     <?php if ($student->isAdmin()) : ?>
         <?php if ( isset($pastries) ) : ?>
             <h2 style="text-align: center">Pastry management</h2>
-            <form method="post">
-                <table style="margin-left:auto;margin-right:auto;">
-                    <?php foreach ($pastries as &$pastry) { ?>
-                        <tr>
-                            <td>
-                                <?= $pastry->name?>
-                            </td>
-                            <td>
-                                <input type="submit" value="remove" id="<?= $pastries->id ?>">
-                            </td>
-                        </tr>
-                    <?php } ?>
-            </form>
-            <tr>
-                <form method="post">
-                    <td>
-                        <input type="text" name="newPastry" pattern="[A-Za-z]" required>
-                    </td>
-                    <td>
-                        <input type="submit" value="add">
-                    </td>
-                </form>
-            </tr>
+
+            <table style="margin-left:auto;margin-right:auto;">
+                <?php foreach ($pastries as &$pastry) { ?>
+                    <tr>
+                        <td>
+                            <?= $pastry->name?>
+                        </td>
+                    </tr>
+                <?php } ?>
+
+                <tr>
+                    <form method="post">
+                        <td>
+                            <input type="text" name="newPastry" required>
+                        </td>
+                        <td>
+                            <input type="submit" value="addPastry">
+                        </td>
+                    </form>
+                </tr>
             </table>
             <hr>
         <?php endif; ?>
@@ -42,30 +39,36 @@
 
             <table style="margin-left:auto;margin-right:auto;">
                 <?php foreach ($allStudent as &$st) { ?>
-                    <?php if ($st->id != $student->id) : ?>
+                    <tr>
+                        <td>
+                            <?= $st->login?>
+                        </td>
+                        <td>
+                            <?php if ($st->id == $student->id) :?>
+                                <b>You</b>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php foreach ($st->roles as &$role) { ?>
                         <tr>
+                            <td></td>
                             <td>
-                                <?= $st->login?>
+                                <?= $role->role ?>
+                            </td>
+                            <td>
+                                <form method="post">
+                                    <input type="text" name="role" value="<?= $role->id ?>" hidden>
+                                    <input type="submit" name="editRole" value="remove">
+                                </form>
                             </td>
                         </tr>
-                        <?php foreach ($st->roles as &$role) { ?>
-                            <tr>
-                                <td></td>
+                    <?php } ?>
+                    <?php if (!($st->isAdmin() && $st->isDelegue() && $st->isBDE())) : ?>
+                        <tr>
+                            <td></td>
+                            <form method="post">
                                 <td>
-                                    <?= $role->role ?>
-                                </td>
-
-                                <td>
-                                    <input type="submit" value="remove" id="<?= $role->id?>">
-                                </td>
-                            </tr>
-                        <?php } ?>
-
-                        <?php if (!($st->isAdmin() && $st->isDelegue() && $st->isBDE())) : ?>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <select>
+                                    <select name="roleValue">
                                         <?php if (!$st->isAdmin()) :?>
                                             <option>Admin</option>
                                         <?php endif; ?>
@@ -78,15 +81,14 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="submit" value="add">
+                                    <input type="text" name="idStudent" value="<?= $st->id ?>" hidden>
+                                    <input type="submit" value="add" name="editRole">
                                 </td>
-                            </tr>
-                        <?php endif; ?>
+                            </form>
+                        </tr>
                     <?php endif; ?>
                 <?php } ?>
             </table>
-
-
         <?php endif; ?>
     <?php else: ?>
         <h2 style="text-align: center; background-color: red"> You are not an administrator </h2>
