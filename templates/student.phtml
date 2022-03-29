@@ -160,41 +160,41 @@
             </td>
         </tr>
     </table>
+
+    <h1>Others</h1>
+    <table class="promo">
+        <thead>
+        <tr>
+            <td class="promo">
+                <b style="padding: 50px">Name</b>
+            </td>
+            <td class="promo">
+                <b style="padding: 50px">Alias</b>
+            </td>
+            <td class="promo">
+                <b style="padding: 50px">Favorite pastry</b>
+            </td>
+        </tr>
+        </thead>
+
+        <?php if (isset($allStudent)) :?>
+            <?php foreach ($allStudent as &$item) { ?>
+                <?php if ($student->id != $item->id) : ?>
+                    <tr>
+                        <td class="promo">
+                            <p style="padding: 0 15px 0 50px"><?= $item->login ?></p>
+                        </td>
+                        <td class="promo">
+                            <p style="padding: 0 15px 0 50px"><?= $item->alias ?></p>
+                        </td>
+                        <td class="promo">
+                            <p style="padding: 0 15px 0 50px"><?= $item->pastry->name ?></p>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php } ?>
+        <?php endif; ?>
+    </table>
 <?php endif ?>
-<h1>Others</h1>
-<table class="promo">
-    <thead>
-    <tr>
-        <td class="promo">
-            <b style="padding: 50px">Name</b>
-        </td>
-        <td class="promo">
-            <b style="padding: 50px">Alias</b>
-        </td>
-        <td class="promo">
-            <b style="padding: 50px">Favorite pastry</b>
-        </td>
-    </tr>
-    </thead>
-
-    <?php if (isset($allStudent)) :?>
-        <?php foreach ($allStudent as &$item) { ?>
-            <?php if ($student->id != $item->id) : ?>
-                <tr>
-                    <td class="promo">
-                        <p style="padding: 0 15px 0 50px"><?= $item->login ?></p>
-                    </td>
-                    <td class="promo">
-                        <p style="padding: 0 15px 0 50px"><?= $item->alias ?></p>
-                    </td>
-                    <td class="promo">
-                        <p style="padding: 0 15px 0 50px"><?= $item->pastry->name ?></p>
-                    </td>
-                </tr>
-            <?php endif; ?>
-        <?php } ?>
-    <?php endif; ?>
-</table>
-
 </body>
 </html>

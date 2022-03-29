@@ -7,19 +7,87 @@
 <body>
 <?php if ( isset($student) ) : ?>
     <h1 style="text-align: center">Administration page</h1>
-    <?php
-    $isAdmin = false;
-    foreach ($student->roles as &$role) {
-        if ($role->role == 'Admin') {
-            $isAdmin = true;
-        }
-    }?>
-    <?php if ($isAdmin == true) : ?>
-        <h2 style="text-align: center; background-color: green"> Hello, administrator </h2>
+    <?php if ($student->isAdmin()) : ?>
+        <?php if ( isset($pastries) ) : ?>
+            <h2 style="text-align: center">Pastry management</h2>
+            <form method="post">
+                <table style="margin-left:auto;margin-right:auto;">
+                    <?php foreach ($pastries as &$pastry) { ?>
+                        <tr>
+                            <td>
+                                <?= $pastry->name?>
+                            </td>
+                            <td>
+                                <input type="submit" value="remove" id="<?= $pastries->id ?>">
+                            </td>
+                        </tr>
+                    <?php } ?>
+            </form>
+            <tr>
+                <form method="post">
+                    <td>
+                        <input type="text" name="newPastry" pattern="[A-Za-z]" required>
+                    </td>
+                    <td>
+                        <input type="submit" value="add">
+                    </td>
+                </form>
+            </tr>
+            </table>
+            <hr>
+        <?php endif; ?>
+
+        <?php if (isset($allStudent)) : ?>
+            <h2 style="text-align: center">Student right management</h2>
+
+            <table style="margin-left:auto;margin-right:auto;">
+                <?php foreach ($allStudent as &$st) { ?>
+                    <?php if ($st->id != $student->id) : ?>
+                        <tr>
+                            <td>
+                                <?= $st->login?>
+                            </td>
+                        </tr>
+                        <?php foreach ($st->roles as &$role) { ?>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <?= $role->role ?>
+                                </td>
+
+                                <td>
+                                    <input type="submit" value="remove" id="<?= $role->id?>">
+                                </td>
+                            </tr>
+                        <?php } ?>
+
+                        <?php if (!($st->isAdmin() && $st->isDelegue() && $st->isBDE())) : ?>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <select>
+                                        <?php if (!$st->isAdmin()) :?>
+                                            <option>Admin</option>
+                                        <?php endif; ?>
+                                        <?php if (!$st->isBDE()) :?>
+                                            <option>BDE</option>
+                                        <?php endif; ?>
+                                        <?php if (!$st->isDelegue()) :?>
+                                            <option>Delegue</option>
+                                        <?php endif; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="submit" value="add">
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php } ?>
+            </table>
 
 
-
-
+        <?php endif; ?>
     <?php else: ?>
         <h2 style="text-align: center; background-color: red"> You are not an administrator </h2>
     <?php endif; ?>

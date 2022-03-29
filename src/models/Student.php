@@ -36,6 +36,33 @@ class Student
         }
     }
 
+    public function isAdmin() {
+        foreach ($this->roles as &$role) {
+            if ($role->role == 'Admin') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isBDE() {
+        foreach ($this->roles as &$role) {
+            if ($role->role == 'BDE') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isDelegue() {
+        foreach ($this->roles as &$role) {
+            if ($role->role == 'Delegue') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function __set($name, $value)
     {
         switch ($name)

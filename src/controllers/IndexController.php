@@ -45,7 +45,6 @@ final class IndexController extends BaseController
         foreach ($students as $student) {
             if ($login == $student->login && $password == $student->pwd) {
                 session_start();
-                $_SESSION["allStudent"] = $students;
                 $_SESSION["student"]=$student;
                 header('Location: http://'.$_SERVER['HTTP_HOST'].'/student');
                 exit;

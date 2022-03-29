@@ -4,6 +4,8 @@ namespace Src\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Src\Models\PastryType;
+use Src\Models\Student;
 
 final class AdminController extends BaseController
 {
@@ -15,6 +17,8 @@ final class AdminController extends BaseController
         }
         $outputArray = [];
         $outputArray['student'] = $_SESSION["student"];
+        $outputArray['allStudent'] = Student::getAll();
+        $outputArray['pastries'] = PastryType::getAll();
         $this->view->render($response, 'admin.phtml', $outputArray);
         return $response;
     }
