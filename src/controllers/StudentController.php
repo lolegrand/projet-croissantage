@@ -6,7 +6,6 @@ use phpDocumentor\Reflection\Types\True_;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Models\PastryType;
-use Src\Models\Student;
 
 final class StudentController extends BaseController
 {
@@ -18,6 +17,7 @@ final class StudentController extends BaseController
         {
             $outputArray = [];
             $outputArray['student'] = $_SESSION["student"];
+            $outputArray['allStudent'] = $_SESSION["allStudent"];
             $outputArray['editAlias'] = 'valueAliasMode';
             $outputArray['editPastry'] = 'valuePastryMode';
             $this->view->render($response, 'student.phtml', $outputArray);
@@ -32,6 +32,7 @@ final class StudentController extends BaseController
         if ( isset($_POST['disconnect']) )
         {
             unset($_SESSION['student']);
+            unset($_SESSION['allStudent']);
             header('Location: http://'.$_SERVER['HTTP_HOST']);
             exit;
         }
@@ -39,6 +40,7 @@ final class StudentController extends BaseController
         $outputArray = [];
         $outputArray['editAlias'] = 'valueAliasMode';
         $outputArray['editPastry'] = 'valuePastryMode';
+        $outputArray['all_student'] = $_SESSION["all_student"];
         if ( isset($_POST['editAlias']) )
         {
             $outputArray['editAlias'] = $this->computeAliasEditing($_POST['editAlias']);
