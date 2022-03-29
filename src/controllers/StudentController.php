@@ -2,7 +2,6 @@
 
 namespace Src\Controller;
 
-use phpDocumentor\Reflection\Types\True_;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Models\PastryType;
@@ -12,7 +11,6 @@ final class StudentController extends BaseController
 
     public function getStudent(Request $request, Response $response, $args)
     {
-        session_start();
         if (isset($_SESSION["student"]))
         {
             $outputArray = [];

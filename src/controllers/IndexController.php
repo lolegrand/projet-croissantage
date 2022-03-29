@@ -4,10 +4,7 @@ namespace Src\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Models\PastryType;
-use Src\Models\Promo;
-use Src\Models\Right;
 use Src\Models\Student;
-use function PHPUnit\Framework\isEmpty;
 
 final class IndexController extends BaseController
 {

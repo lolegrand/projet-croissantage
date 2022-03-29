@@ -1,8 +1,6 @@
 <?php
 
 use Slim\App;
-use Slim\Http\Request;
-use Slim\Http\Response;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -11,11 +9,15 @@ return function (App $app) {
         ->setName('login');
 
     $app->get('/', 'Src\Controller\IndexController:getIndex')
-    ->setName('index');
+    ->setName('login');
 
     $app->get('/student', 'Src\Controller\StudentController:getStudent')
-        ->setName('index');
+        ->setName('student');
 
     $app->post('/student', 'Src\Controller\StudentController:postStudent')
-        ->setName('index');
+        ->setName('student');
+
+    $app->get('/admin', 'Src\Controller\AdminController:getAdmin')
+        ->setName('admin');
+
 };
