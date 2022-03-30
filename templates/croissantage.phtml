@@ -1,10 +1,106 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Slim 3</title>
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8"/>
+    <title>Slim 3</title>
+    <style>
 
-    </body>
+        .croissantage_table {
+            border: 1px solid;
+            width: 100%;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .croissantage_thead {
+            background-color: grey;
+            height: 50px;
+        }
+
+    </style>
+</head>
+<?php require '../templates/component/session_header.php'?>
+<body>
+
+<?php if(isset($croissantages)) :?>
+    <h2 style="text-align: center">List of all croissantage</h2>
+    <?php foreach ($croissantages as &$croissantage) { ?>
+        <table class="croissantage_table">
+            <thead class="croissantage_thead">
+            <tr>
+                <td>
+                    <b>Croissanteur</b>
+                </td>
+                <td>
+                    <b>Croissanted</b>
+                </td>
+                <td>
+                    <b>Croissantage date</b>
+                </td>
+                <td>
+                    <b>Command date</b>
+                </td>
+                <td>
+                    <b>Croissantage deadline</b>
+                </td>
+            </tr>
+            </thead>
+
+            <tr>
+                <td>
+                    <?= $croissantage->croissanter->login?>
+                </td>
+                <td>
+                    <?= $croissantage->croissanted_student->login?>
+                </td>
+                <td>
+                    <?= $croissantage->dateCroissantage?>
+                </td>
+                <td>
+                    <?= $croissantage->dateCommand?>
+                </td>
+                <td>
+                    <?= $croissantage->deadline?>
+                </td>
+            </tr>
+            <thead class="croissantage_thead" style="height: 15px">
+            <tr>
+                <td colspan="5">
+                    <b>Commands</b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <b>Client</b>
+                </td>
+                <td colspan="2">
+                    <b>Pastry</b>
+                </td>
+                <td colspan="1">
+                    <b>Quantity</b>
+                </td>
+            </tr>
+            </thead>
+            <?php foreach ($croissantage->pastryCommandItem as &$item) { ?>
+                <tr>
+                    <td colspan="2">
+
+                    </td>
+                    <td colspan="2">
+                        <?= $item->pastryType->name ?>
+                    </td>
+                    <td colspan="1">
+                        <?= $item->nbPastry ?>
+                    </td>
+                </tr>
+            <?php } ?>
+        </table>
+    <?php } ?>
+
+    <?php var_dump($croissantages) ?>
+
+<?php endif; ?>
+</body>
 </html>

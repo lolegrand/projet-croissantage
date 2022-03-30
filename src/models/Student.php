@@ -88,6 +88,15 @@ class Student
         return $students;
     }
 
+    public static function getById($id)
+    {
+        $db = Database::getInstance();
+        $sth = $db->prepare("SELECT * FROM Student WHERE id=$id");
+        $sth->execute();
+        $data = $sth->fetchAll()[0];
+        return new Student($data->login, $data->alias, $data->pwd, PastryType::getById($data->defaultPastry), $data->id);
+    }
+
     public function registerToDatabase()
     {
         $request = "INSERT INTO Student(login, alias, pwd, defaultPastry) VALUES (\"$this->login\",\"$this->alias\",\"$this->pwd\",$this->pastry->id)";

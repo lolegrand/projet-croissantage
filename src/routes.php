@@ -23,4 +23,10 @@ return function (App $app) {
     $app->post('/admin', 'Src\Controller\AdminController:postAdmin')
         ->setName('admin');
 
+    $app->get('/croissantage', 'Src\Controller\CroissantageController:getCroissantage')
+        ->setName('croissantage');
+
+    $app->post('/croissantage', 'Src\Controller\CroissantageController:postCroissantage')
+        ->setName('croissantage');
+
 };

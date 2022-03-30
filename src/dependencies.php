@@ -55,6 +55,12 @@ return function (App $app) {
         return new Src\Controller\AdminController($view, $logger, $container);
     };
 
+    $container['Src\Controller\CroissantageController'] = function ($container) {
+        $view = $container->get('renderer');
+        $logger = $container->get('logger');
+        return new Src\Controller\CroissantageController($view, $logger, $container);
+    };
+
     $container['Src\Controller\SystemController'] = function ($container) {
         $logger = $container->get('logger');
         $cfgModel = $container->get('cfgModel');
