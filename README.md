@@ -10,9 +10,9 @@ Web technologie project for student purpose.
 
 # How to start
 
-> git clone https://github.com/lolegrand/projet-croissantage.git
-> cd projet-croissantage
-> composer install
+> git clone https://github.com/lolegrand/projet-croissantage.git \
+> cd projet-croissantage \
+> composer install \
 > composer start
 
 Je suppose que vous avez une base de donné correctement installé et un composer fonctionnel.
