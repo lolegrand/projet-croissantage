@@ -1,10 +1,25 @@
+# WARNING : Il est préférable de lire cette documentation sur le github du projet (lien ci-dessous)
+
+https://github.com/lolegrand/projet-croissantage/blob/main/README.md
+
 # Web technologie project.
 
 Web technologie project for student purpose.
 
 **Louis Legrand** ENSSAT promotion 2024
 
-# Liste des fonctionalité implémenté
+# How to start
+
+> git clone https://github.com/lolegrand/projet-croissantage.git
+> cd projet-croissantage
+> composer install
+> composer start
+
+Je suppose que vous avez une base de donné correctement installé et un composer fonctionnel.
+Pour vous connecter à la base de donné merci de modifer le fichier ***projet-croissantage/src/settings.php***
+en fonction.
+
+# Liste des fonctionalités implémentés
 
 ## Page de connection est d'enregistrement
 
