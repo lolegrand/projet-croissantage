@@ -49,6 +49,8 @@ en fonction.
 
 ## Page administration :
 
+![image](https://user-images.githubusercontent.com/61364945/162051515-fa421ac7-ba21-4722-b786-36e0fd9ddce5.png)
+
 ### Fait :
   - Affichage de la liste de pâtisserie actuellement en base.
   - Ajout d'une pâtisserie en base.
